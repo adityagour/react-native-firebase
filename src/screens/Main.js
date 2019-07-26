@@ -3,14 +3,17 @@ import { Alert, Platform, Image, View, Text, StyleSheet, Button } from 'react-na
 import { firebaseAuth } from '../../environment/config';
 
 export default class Main extends React.Component {
-    state = { currentUser: null }
+    constructor(props) {
+        super(props);
+        this.state = { currentUser: null, errorMessage: null }
+    }
+
 
     componentDidMount() {
         const { currentUser } = firebaseAuth;
         this.setState({ currentUser })
     }
-    onPressButton() {
-        Alert.alert('You tapped the button!', JSON.stringify(this.props));
+    onPressButton = () => {
         firebaseAuth.signOut()
             .then(() => this.props.navigation.navigate('Login'))
             .catch(error => this.setState({ errorMessage: error.message }));
